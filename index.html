@@ -7,12 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blackjack</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="style.css">
     <script src="blackjack.js" defer></script>
 </head>
 
 <body>
-
+    <h1>Blackjack</h1>
+    <p id="message-el">Want to play a round?</p>
+    <button id="start-btn" onclick="startGame()">START GAME</button>
+    <button id="draw-btn" onclick="newCard()">NEW CARD</button>
+    <p>Cards: <span id="cards-el"></span></p>
+    <p>Sum: <span id="sum-el"></span></p>
 </body>
 
 </html>
