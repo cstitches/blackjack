@@ -1,12 +1,16 @@
 body {
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', Arial, sans-serif;
+    max-height: 100vh;
+    /*background*/
     background-image: url("img/table.png");
     background-size: cover;
     background-attachment: fixed;
-    font-weight: bold;
+    /*typography*/
     color: white;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', Arial, sans-serif;
+    font-weight: bold;
     text-align: center;
 }
+
 
 h1 {
     color: goldenrod;
@@ -14,6 +18,7 @@ h1 {
 
 #message-el {
     font-style: italic;
+    font-size: 2rem;
 }
 
 button {
@@ -27,3 +32,16 @@ button {
     background: goldenrod;
     font-weight: bold;
 }
+
+
+/* styles for expanding scope of game later */
+/* #dealer-table, #player-table {
+    background: rgba(255, 255, 255, 0.25);
+    padding: 16px;
+    margin: 3rem 0;
+}
+
+.cards-table {
+    font-size: 3rem;
+    margin: 0px 0 10px;
+} */
