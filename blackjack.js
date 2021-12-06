@@ -2,6 +2,7 @@
 
 // Text in UI
 
+const betEl = document.getElementById("bet-el")
 const messageEl = document.getElementById("message-el")
 const betMessage = document.getElementById("bet-msg")
 const dealerHandEl = document.getElementById("dealer-hand")
@@ -44,14 +45,16 @@ let playerEarnings = 0;
 
 // *** INITIAL UI SETTINGS ************************
 
-playerChipsEl.textContent = `\$${playerChips}`
-betMessage.textContent = `You have \$${playerChips} in chips. Place your bet to start the round.`
+betMsg()
 
 
 // *** FUNCTIONS: PLAYER BET **********************
 
+function betMsg() {
+    playerChipsEl.textContent = `\$${playerChips}`
+    betMessage.textContent = `You have \$${playerChips} in chips. Place your bet to start the round.`
+}
 
-// need to control clicking "Place Bet" after round starts
 function placeBet() {
     if (isAlive === true) {
         messageEl.textContent = "You've already placed a bet."
@@ -78,15 +81,13 @@ function placeBet() {
     }
 }
 
-// exceptions
-// if empty, if not a number, if more than chips
-
 
 
 // *** FUNCTIONS: START & RESET ********************
 
 // FUNCTION: Starts a new round
 function startRound() {
+    betEl.style = "display:none;"
     // generateHand(dealerHand, dealerSum)
     // generateHand(playerHand, playerSum)
     generateDealerHand()
@@ -274,6 +275,41 @@ function compareHands() {
 
 // *** FUNCTIONS: BET OUTCOMES ******************
 
+function playerBJ() {
+    // winnings
+    playerChips += playerBet * 1.5
+    playerEarnings += playerBet * .5
+    renderResults()
+    resetBet()
+}
+
+function playerWin() {
+    // winnings
+    playerChips += playerBet * 2
+    playerEarnings += playerBet
+    renderResults()
+    resetBet()
+}
+
+function playerLose() {
+    // loses
+    playerChips = playerChips
+    playerEarnings -= playerBet
+    renderResults()
+    resetBet()
+}
+
+function playerTie() {
+    // tie
+    playerChips += playerBet
+    playerEarnings += 0
+    renderResults()
+    resetBet()
+}
+
+
+// *** FUNCTIONS: RENDER BET OUTCOME & RESET BET *****
+
 function renderResults() {
     // reset bet
     playerBet = 0
@@ -283,30 +319,7 @@ function renderResults() {
     playerEarnEl.textContent = `\$${playerEarnings}`
 }
 
-function playerBJ() {
-    // winnings
-    playerChips += playerBet * 1.5
-    playerEarnings += playerBet * .5
-    renderResults()
-}
-
-function playerWin() {
-    // winnings
-    playerChips += playerBet * 2
-    playerEarnings += playerBet
-    renderResults()
-}
-
-function playerLose() {
-    // loses
-    playerChips = playerChips
-    playerEarnings -= playerBet
-    renderResults()
-}
-
-function playerTie() {
-    // tie
-    playerChips += playerBet
-    playerEarnings += 0
-    renderResults()
+function resetBet() {
+    betEl.style = ""
+    betMsg()
 }
