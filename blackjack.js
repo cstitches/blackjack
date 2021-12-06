@@ -226,9 +226,11 @@ function updateDealerHand() {
 function evaluatePlayerHand() {
     if (playerSum === 21) {
         messageEl.textContent = "You've got Blackjack! You get 1.5x your bet."
+        playerBJ()
         isAlive = false
     } else if (playerSum > 21) {
         messageEl.textContent = "Bust! You lose your bet."
+        playerLose()
         isAlive = false
     } else if (playerSum < 21) {
         messageEl.textContent = "Hit or Stay?"
@@ -240,9 +242,11 @@ function evaluatePlayerHand() {
 function evaluateDealerHand() {
     if (dealerSum === 21) {
         messageEl.textContent = "Dealer has Blackjack. You lose your bet."
+        playerLose()
         isAlive = false
     } else if (dealerSum > 21) {
         messageEl.textContent = "Dealer is bust. You get 2x your bet."
+        playerWin()
         isAlive = false
     } else {
         compareHands()
@@ -254,15 +258,55 @@ function evaluateDealerHand() {
 function compareHands() {
     if (dealerSum > playerSum) {
         messageEl.textContent = "Dealer wins. You lose your bet."
+        playerLose()
         isAlive = false
     } else if (dealerSum < playerSum) {
         messageEl.textContent = "You win! You get 2x your bet."
+        playerWin()
         isAlive = false
     } else if (dealerSum === playerSum) {
         messageEl.textContent = "Tie. You keep your original bet."
+        playerTie()
         isAlive = false
     }
 }
 
 
+// *** FUNCTIONS: BET OUTCOMES ******************
 
+function renderResults() {
+    // reset bet
+    playerBet = 0
+    // render
+    playerBetEl.textContent = `\$${playerBet}`
+    playerChipsEl.textContent = `\$${playerChips}`
+    playerEarnEl.textContent = `\$${playerEarnings}`
+}
+
+function playerBJ() {
+    // winnings
+    playerChips += playerBet * 1.5
+    playerEarnings += playerBet * .5
+    renderResults()
+}
+
+function playerWin() {
+    // winnings
+    playerChips += playerBet * 2
+    playerEarnings += playerBet
+    renderResults()
+}
+
+function playerLose() {
+    // loses
+    playerChips = playerChips
+    playerEarnings -= playerBet
+    renderResults()
+}
+
+function playerTie() {
+    // tie
+    playerChips += playerBet
+    playerEarnings += 0
+    renderResults()
+}
