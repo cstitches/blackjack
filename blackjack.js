@@ -3,6 +3,7 @@
 // Text in UI
 
 const messageEl = document.getElementById("message-el")
+const betMessage = document.getElementById("bet-msg")
 const dealerHandEl = document.getElementById("dealer-hand")
 const dealerSumEl = document.getElementById("dealer-sum")
 const playerHandEl = document.getElementById("player-hand")
@@ -10,6 +11,7 @@ const playerSumEl = document.getElementById("player-sum")
 const playerBetEl = document.getElementById("player-bet")
 const playerChipsEl = document.getElementById("player-chips")
 const playerEarnEl = document.getElementById("player-earn")
+const betInput = document.getElementById("bet-input")
 
 // Buttons
 
@@ -17,13 +19,15 @@ const startBtn = document.getElementById("start-btn")
 const resetBtn = document.getElementById("reset-btn")
 const hitBtn = document.getElementById("hit-btn")
 const stayBtn = document.getElementById("stay-btn")
+const betBtn = document.getElementById("bet-btn")
 
 // Button event listeners
 
-startBtn.addEventListener("click", startRound)
+// startBtn.addEventListener("click", startRound)
 resetBtn.addEventListener("click", resetGame)
 hitBtn.addEventListener("click", playerHit)
 stayBtn.addEventListener("click", playerStay)
+betBtn.addEventListener("click", placeBet)
 
 
 // *** VARIABLES: GLOBAL ***************************
@@ -34,16 +38,55 @@ let dealerSum = 0;
 let playerHand = [];
 let playerSum = 0;
 let playerBet = 0;
-let playerChips = 0;
+let playerChips = 100;
 let playerEarnings = 0;
 
 
-// *** FUNCTIONS ***********************************
+// *** INITIAL UI SETTINGS ************************
+
+playerChipsEl.textContent = `\$${playerChips}`
+betMessage.textContent = `You have \$${playerChips} in chips. Place your bet to start the round.`
+
+
+// *** FUNCTIONS: PLAYER BET **********************
+
+
+// need to control clicking "Place Bet" after round starts
+function placeBet() {
+    if (isAlive === true) {
+        messageEl.textContent = "You've already placed a bet."
+    } else {
+        if (playerChips <= 0) {
+            messageEl.textContent = "Sorry, you're out of chips."
+        } else {
+            playerBet = Number(betInput.value)
+            betInput.value = ""
+            if (isNaN(playerBet) === true) {
+                messageEl.textContent = "You need to enter a number. Try again."
+            } else if (playerBet > playerChips) {
+                messageEl.textContent = "You can't afford that bet. Try again."
+            } else if (playerBet < 1) {
+                messageEl.textContent = "You need to bet at least $1. Try again."
+            } else {
+                playerChips -= playerBet
+                playerBetEl.textContent = `\$${playerBet}`
+                playerChipsEl.textContent = `\$${playerChips}`
+                isAlive = true
+                startRound()
+            }
+        }
+    }
+}
+
+// exceptions
+// if empty, if not a number, if more than chips
+
+
+
+// *** FUNCTIONS: START & RESET ********************
 
 // FUNCTION: Starts a new round
 function startRound() {
-    isAlive = true
-    // solicitBet()
     // generateHand(dealerHand, dealerSum)
     // generateHand(playerHand, playerSum)
     generateDealerHand()
@@ -51,6 +94,28 @@ function startRound() {
     evaluatePlayerHand()
 }
 
+function resetGame() {
+    //will reset all variables to initial values
+    isAlive = false
+    dealerHand = [];
+    dealerSum = 0;
+    playerHand = [];
+    playerSum = 0;
+    playerBet = 0;
+    playerChips = 100;
+    playerEarnings = 0;
+
+    dealerHandEl.textContent = ""
+    dealerSumEl.textContent = ""
+    playerHandEl.textContent = ""
+    playerSumEl.textContent = ""
+    playerBetEl.textContent = ""
+    playerChipsEl.textContent = ""
+    playerEarnEl.textContent = ""
+}
+
+
+// *** FUNCTIONS: GENERATE & RENDER HANDS **********
 
 // FUNCTION: Generates a random card value for Blackjack
 // !!! MAKE VALUE 1 BRANCH 1 or 11 DEPENDING ON VALUE OF SUM
@@ -115,6 +180,9 @@ function renderPlayerHand() {
 
 }
 
+
+// *** FUNCTIONS: HIT & STAY & UPDATE DEALER'S HAND **
+
 // FUNCTION: Adds a new card to player's hand, renders it out and evaluates the new sum
 function playerHit() {
     if (isAlive === true) {
@@ -151,8 +219,8 @@ function updateDealerHand() {
     }
 }
 
-// *** FUNCTIONS: RESOLVE HANDS ********************
 
+// *** FUNCTIONS: RESOLVE GAME *********************
 
 // FUNCTION: Evaluates the player's hand for Blackjack, bust, or ability to hit or stay
 function evaluatePlayerHand() {
@@ -198,25 +266,3 @@ function compareHands() {
 
 
 
-
-
-
-function resetGame() {
-    //will reset all variables to initial values
-    isAlive = false
-    dealerHand = [];
-    dealerSum = 0;
-    playerHand = [];
-    playerSum = 0;
-    playerBet = 0;
-    playerChips = 0;
-    playerEarnings = 0;
-
-    dealerHandEl.textContent = ""
-    dealerSumEl.textContent = ""
-    playerHandEl.textContent = ""
-    playerSumEl.textContent = ""
-    playerBetEl.textContent = ""
-    playerChipsEl.textContent = ""
-    playerEarnEl.textContent = ""
-}
