@@ -31,6 +31,7 @@ h1 {
 #message-el {
     font-style: italic;
     font-size: 1.75rem;
+    margin: 2rem 0;
 }
 
 button {
@@ -48,7 +49,7 @@ button {
 #dealer-table, #player-table {
     background: rgba(255, 255, 255, 0.25);
     padding: 16px;
-    margin: 3rem 0;
+    margin: 1rem 0;
 }
 
 .cards-table {

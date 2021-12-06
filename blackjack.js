@@ -38,13 +38,13 @@ let playerEarnings = 0;
 
 
 function startRound() {
-    console.log("Start round clicked")
+    isAlive = true
     // solicitBet()
     generateDealerHand()
     generatePlayerHand()
     renderDealerHand()
     renderPlayerHand()
-    // evaluatePlayerHand()
+    evaluatePlayerHand()
 }
 
 function generateDealerHand() {
@@ -84,6 +84,30 @@ function renderPlayerHand() {
     playerSumEl.textContent = playerSum
 
 }
+
+function evaluatePlayerHand() {
+    console.log("Eval player hand working")
+    if (playerSum === 21) {
+        messageEl.textContent = "You've got Blackjack! You get 1.5x your bet."
+        isAlive = false
+    } else if (playerSum > 21) {
+        messageEl.textContent = "Bust! You lose your bet."
+        isAlive = false
+    } else if (playerSum < 21) {
+        messageEl.textContent = "Hit or Stay?"
+        isAlive = true
+    }
+}
+
+
+
+
+
+
+
+
+
+
 
 
 function resetGame() {
