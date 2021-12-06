@@ -86,7 +86,6 @@ function renderPlayerHand() {
 }
 
 
-
 function resetGame() {
     //will reset all variables to initial values
     console.log("Reset game clicked")
