@@ -44,10 +44,10 @@ let playerEarnings = 0;
 function startRound() {
     isAlive = true
     // solicitBet()
+    // generateHand(dealerHand, dealerSum)
+    // generateHand(playerHand, playerSum)
     generateDealerHand()
     generatePlayerHand()
-    renderInitialDealerHand()
-    renderPlayerHand()
     evaluatePlayerHand()
 }
 
@@ -66,33 +66,45 @@ function generateRandomCard() {
 
 // !!!REFACTOR GENERATE HAND FUNCTIONS INTO ONE!!!
 
+// !!! First attempt, not working
+// function generateHand(hand, sum) {
+//     hand = [generateRandomCard(), generateRandomCard()]
+//     sum = hand[0] + hand[1]
+// }
+
+
 // FUNCTION: Generates dealer's hand at beginning of game
 function generateDealerHand() {
-    let card1 = generateRandomCard()
-    let card2 = generateRandomCard()
-    dealerHand = [card1, card2]
-    dealerSum = playerHand[0] + playerHand[1]
+    dealerHand = [generateRandomCard(), generateRandomCard()]
+    dealerSum = dealerHand[0] + dealerHand[1]
+    renderInitialDealerHand()
 }
 
 // FUNCTION: Generates player's hand and sum at beginning of game
 function generatePlayerHand() {
-    let card1 = generateRandomCard()
-    let card2 = generateRandomCard()
-    playerHand = [card1, card2]
+    playerHand = [generateRandomCard(), generateRandomCard()]
     playerSum = playerHand[0] + playerHand[1]
+    renderPlayerHand()
 }
 
-
-
-// FUNCTION: Renders the dealer's hand in the UI
-// only renders first card in UI
+// FUNCTION: Renders the dealer's first card in the UI
 function renderInitialDealerHand() {
     dealerHandEl.textContent = dealerHand[0]
     dealerSumEl.textContent = dealerHand[0]
 }
 
-// FUNCTION: Renders the player's hand in the UI
-// renders both cards in UI
+// !!!REFACTOR INTO ONE renderHand FUNCTION
+
+// FUNCTION: Renders the dealer's full hand in the UI
+function renderDealerHand() {
+    dealerHandEl.textContent = ""
+    for (let i = 0; i < dealerHand.length; i++) {
+        dealerHandEl.textContent += dealerHand[i] + " "
+    }
+    dealerSumEl.textContent = dealerSum
+}
+
+// FUNCTION: Renders the player's full hand in the UI
 function renderPlayerHand() {
     playerHandEl.textContent = ""
     for (let i = 0; i < playerHand.length; i++) {
@@ -100,20 +112,6 @@ function renderPlayerHand() {
     }
     playerSumEl.textContent = playerSum
 
-}
-
-// FUNCTION: Evaluates the player's hand for Blackjack, bust, or ability to hit or stay
-function evaluatePlayerHand() {
-    if (playerSum === 21) {
-        messageEl.textContent = "You've got Blackjack! You get 1.5x your bet."
-        isAlive = false
-    } else if (playerSum > 21) {
-        messageEl.textContent = "Bust! You lose your bet."
-        isAlive = false
-    } else if (playerSum < 21) {
-        messageEl.textContent = "Hit or Stay?"
-        isAlive = true
-    }
 }
 
 // FUNCTION: Adds a new card to player's hand, renders it out and evaluates the new sum
@@ -144,20 +142,29 @@ function updateDealerHand() {
         let newCard = generateRandomCard()
         dealerHand.push(newCard)
         dealerSum += newCard
+        updateDealerHand()
         renderDealerHand()
-        evaluateDealerHand()
+        // evaluateDealerHand()
     } else {
         renderDealerHand()
     }
-
 }
 
-function renderDealerHand() {
-    dealerHandEl.textContent = ""
-    for (let i = 0; i < dealerHand.length; i++) {
-        dealerHandEl.textContent += dealerHand[i] + " "
+// *** FUNCTIONS: RESOLVE HANDS ********************
+
+
+// FUNCTION: Evaluates the player's hand for Blackjack, bust, or ability to hit or stay
+function evaluatePlayerHand() {
+    if (playerSum === 21) {
+        messageEl.textContent = "You've got Blackjack! You get 1.5x your bet."
+        isAlive = false
+    } else if (playerSum > 21) {
+        messageEl.textContent = "Bust! You lose your bet."
+        isAlive = false
+    } else if (playerSum < 21) {
+        messageEl.textContent = "Hit or Stay?"
+        isAlive = true
     }
-    dealerSumEl.textContent = dealerSum
 }
 
 // FUNCTION: Evaluates if dealer has Blackjack, is bust, or need to compare player & dealer hands
@@ -168,8 +175,14 @@ function evaluateDealerHand() {
     } else if (dealerSum > 21) {
         messageEl.textContent = "Dealer is bust. You get 2x your bet."
     } else {
-        // compareHands()
+        compareHands()
     }
+}
+
+// FUNCTION: Compare dealer & player's hands
+
+function compareHands() {
+    console.log("Hands compared")
 }
 
 
