@@ -6,7 +6,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /* align-items: center; */
+    align-items: center;
     /*background*/
     background-image: url("img/table.png");
     background-size: cover;
@@ -21,6 +21,7 @@ body {
 .container {
     max-width: 980px;
     min-width: 300px;
+    margin: 0 auto;
 }
 
 
