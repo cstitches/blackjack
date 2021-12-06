@@ -1,5 +1,12 @@
 body {
+    height: 100vh;
     max-height: 100vh;
+    overflow:hidden;
+    /*flexbox*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     /*background*/
     background-image: url("img/table.png");
     background-size: cover;
@@ -11,6 +18,11 @@ body {
     text-align: center;
 }
 
+.container {
+    max-width: 980px;
+    min-width: 300px;
+}
+
 
 h1 {
     color: goldenrod;
@@ -18,7 +30,7 @@ h1 {
 
 #message-el {
     font-style: italic;
-    font-size: 2rem;
+    font-size: 1.75rem;
 }
 
 button {
@@ -33,9 +45,7 @@ button {
     font-weight: bold;
 }
 
-
-/* styles for expanding scope of game later */
-/* #dealer-table, #player-table {
+#dealer-table, #player-table {
     background: rgba(255, 255, 255, 0.25);
     padding: 16px;
     margin: 3rem 0;
@@ -44,4 +54,4 @@ button {
 .cards-table {
     font-size: 3rem;
     margin: 0px 0 10px;
-} */
+}
