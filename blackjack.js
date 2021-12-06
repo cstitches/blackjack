@@ -53,6 +53,7 @@ function startRound() {
 
 
 // FUNCTION: Generates a random card value for Blackjack
+// !!! MAKE VALUE 1 BRANCH 1 or 11 DEPENDING ON VALUE OF SUM
 function generateRandomCard() {
     let card = Math.floor(Math.random() * 13) + 1
     if (card === 1) {
@@ -171,9 +172,10 @@ function evaluatePlayerHand() {
 function evaluateDealerHand() {
     if (dealerSum === 21) {
         messageEl.textContent = "Dealer has Blackjack. You lose your bet."
-        isAlive = false;
+        isAlive = false
     } else if (dealerSum > 21) {
         messageEl.textContent = "Dealer is bust. You get 2x your bet."
+        isAlive = false
     } else {
         compareHands()
     }
@@ -182,7 +184,16 @@ function evaluateDealerHand() {
 // FUNCTION: Compare dealer & player's hands
 
 function compareHands() {
-    console.log("Hands compared")
+    if (dealerSum > playerSum) {
+        messageEl.textContent = "Dealer wins. You lose your bet."
+        isAlive = false
+    } else if (dealerSum < playerSum) {
+        messageEl.textContent = "You win! You get 2x your bet."
+        isAlive = false
+    } else if (dealerSum === playerSum) {
+        messageEl.textContent = "Tie. You keep your original bet."
+        isAlive = false
+    }
 }
 
 
