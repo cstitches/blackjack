@@ -22,7 +22,7 @@ const stayBtn = document.getElementById("stay-btn")
 
 startBtn.addEventListener("click", startRound)
 resetBtn.addEventListener("click", resetGame)
-// hitBtn.addEventListener("click", playerHit)
+hitBtn.addEventListener("click", playerHit)
 // stayBtn.addEventListener("click", playerStay)
 
 
@@ -47,18 +47,22 @@ function startRound() {
     evaluatePlayerHand()
 }
 
+// FUNCTION: Generates dealer's hand at beginning of game
 function generateDealerHand() {
     let card1 = generateRandomCard()
     let card2 = generateRandomCard()
     dealerHand = [card1, card2]
 }
 
+// FUNCTION: Generates player's hand and sum at beginning of game
 function generatePlayerHand() {
     let card1 = generateRandomCard()
     let card2 = generateRandomCard()
     playerHand = [card1, card2]
+    playerSum = playerHand[0] + playerHand[1]
 }
 
+// FUNCTION: Generates a random card value for Blackjack
 function generateRandomCard() {
     let card = Math.floor(Math.random() * 13) + 1
     if (card === 1) {
@@ -70,23 +74,24 @@ function generateRandomCard() {
     }
 }
 
+// FUNCTION: Renders the dealer's hand in the UI
 function renderDealerHand() {
     dealerHandEl.textContent = dealerHand[0]
     dealerSumEl.textContent = dealerHand[0]
 }
 
+// FUNCTION: Renders the player's hand in the UI
 function renderPlayerHand() {
     playerHandEl.textContent = ""
     for (let i = 0; i < playerHand.length; i++) {
         playerHandEl.textContent += playerHand[i] + " "
     }
-    playerSum = playerHand[0] + playerHand[1]
     playerSumEl.textContent = playerSum
 
 }
 
+// FUNCTION: Evaluates the player's hand for Blackjack, bust, or ability to hit or stay
 function evaluatePlayerHand() {
-    console.log("Eval player hand working")
     if (playerSum === 21) {
         messageEl.textContent = "You've got Blackjack! You get 1.5x your bet."
         isAlive = false
@@ -99,8 +104,17 @@ function evaluatePlayerHand() {
     }
 }
 
-
-
+function playerHit() {
+    if (isAlive === true) {
+        let newCard = generateRandomCard()
+        playerHand.push(newCard)
+        playerSum += newCard
+        renderPlayerHand()
+        evaluatePlayerHand()
+    } else {
+        messageEl.textContent = "Start a new game."
+    }
+}
 
 
 
@@ -112,5 +126,20 @@ function evaluatePlayerHand() {
 
 function resetGame() {
     //will reset all variables to initial values
-    console.log("Reset game clicked")
+    isAlive = false
+    dealerHand = [];
+    dealerSum = 0;
+    playerHand = [];
+    playerSum = 0;
+    playerBet = 0;
+    playerChips = 0;
+    playerEarnings = 0;
+
+    dealerHandEl.textContent = ""
+    dealerSumEl.textContent = ""
+    playerHandEl.textContent = ""
+    playerSumEl.textContent = ""
+    playerBetEl.textContent = ""
+    playerChipsEl.textContent = ""
+    playerEarnEl.textContent = ""
 }
