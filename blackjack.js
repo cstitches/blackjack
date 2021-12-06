@@ -193,7 +193,7 @@ function playerHit() {
         renderPlayerHand()
         evaluatePlayerHand()
     } else {
-        messageEl.textContent = "Start a new game."
+        messageEl.textContent = "Place your bet to start."
     }
 }
 
@@ -203,7 +203,7 @@ function playerStay() {
         updateDealerHand()
         evaluateDealerHand()
     } else {
-        messageEl.textContent = "Start a new game."
+        messageEl.textContent = "Place your bet to start."
     }
 }
 
